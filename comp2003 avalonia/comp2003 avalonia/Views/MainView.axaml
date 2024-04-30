@@ -1,0 +1,458 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:comp2003_avalonia.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="comp2003_avalonia.Views.MainView"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+  <ScrollViewer VerticalScrollBarVisibility="Visible"  >
+	  <ThemeVariantScope RequestedThemeVariant="Light" x:Name="themeChanger">
+		  
+	  <StackPanel>
+		  <Grid Height="20">
+			  <Rectangle Fill="Gray" Height="20"></Rectangle>
+			  <TextBlock x:Name="debugText" Text="Leela SPH" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+		  </Grid>
+	  
+    <StackPanel HorizontalAlignment="Center" Width="600" Margin="20">
+		<Button x:Name="ThemeButton" Content="Light mode" Click="ChangeMode"></Button>
+		
+		
+		
+		
+		
+		
+		
+      
+
+
+      <!--StackPanel Width="800" Margin="20" Orientation="Horizontal"-->
+
+
+
+
+
+      
+        
+
+
+        <!-- Intro Text -->
+
+
+
+
+        <!--Beginner mode toggle-->
+        <Label x:Name="BeginnerToggleLabel">Beginner mode Toggle</Label>
+        <ToggleButton x:Name="modeToggle" Content="Switch Mode" Click="ToggleModeClicked"/>
+
+        <!-- Selection for ParaView Installation folder  -->
+        <Label>Select ParaView location</Label>
+        <Label
+          x:Name="selectParaLabel"
+          IsVisible="False"
+          Foreground="Red"
+      >
+          You must select ParaView location if you want it to start automatically
+        </Label>
+        <TextBox
+          x:Name="paraViewLocation"
+          Watermark="Input location ParaView location here"
+    />
+        <Button
+          Click="BrowseClicked">Browse</Button>
+
+
+
+        <!-- ParaView AutoStart  -->
+        <Label>Would you like ParaView to start automatically after simulation ends?</Label>
+        <StackPanel Orientation="Horizontal">
+          <Button x:Name="paraYesButton" Click="paraYesClicked" Background="Blue" Foreground="White">Yes</Button>
+          <Button x:Name="paraNoButton" Click="paraNoClicked">No</Button>
+        </StackPanel>
+
+        <!-- Stock Preset Options -->
+        <Label>Stock Presets</Label>
+        <StackPanel Orientation="Horizontal">
+          <Button x:Name="preset1" Click="HardCodePresets" Tag="1" Background="">Preset 1</Button>
+          <Button x:Name="preset2" Click="HardCodePresets" Tag="2" Background="">Preset 2</Button>
+          <Button x:Name="preset3" Click="HardCodePresets" Tag="3" Background="">Preset 3</Button>
+        </StackPanel>
+
+
+        <!-- Custom Preset Options -->
+        <Label>Your Presets</Label>
+        <StackPanel Orientation="Horizontal">
+          <Button x:Name="userPreset1" Click="UserPresets" Tag="1" Background="" Foreground="Black">No Preset</Button>
+          <Button x:Name="userPreset2" Click="UserPresets" Tag="2" Background="">No Preset</Button>
+          <Button x:Name="userPreset3" Click="UserPresets" Tag="3" Background="">No Preset</Button>
+        </StackPanel>
+
+        <!-- Saving Custom Presets -->
+        <Label>Do you want to save your Selection as your selected preset?</Label>
+        <StackPanel Orientation="Horizontal">
+          <TextBox x:Name="presetNameBox" Watermark="Type Preset Name Here"/>
+          <Button x:Name="SavePreset" Background="Green" Click="FirstSavePreset">Save</Button>
+          <StackPanel x:Name="ConfirmSaves" Orientation="Horizontal" IsVisible="False">
+            <Button x:Name="ConfirmSave" Background="Green"  Click="SecondSavePreset">Confirm</Button>
+            <Button x:Name="DenySave" Background="Red" Click="DontSavePreset">Do Not Save</Button>
+          </StackPanel>
+        </StackPanel>
+
+
+
+
+        <!-- All Variable names plus sliders -->
+        <Label x:Name="DimLabel">Dimensionality of the problem</Label>
+        <TextBox
+          x:Name="dimProblem"
+          Text="{Binding Value, ElementName=dimProblemSlider}"
+      />
+
+        <Slider x:Name="dimProblemSlider"
+                Maximum="3"
+                Minimum="1"
+            
+                Value="{Binding Text, ElementName=dimProblem, Mode=TwoWay}"
+                TickFrequency="1"
+                IsSnapToTickEnabled="True"
+            />
+
+
+
+
+
+
+		<Label>Reference Density</Label>
+		<TextBox
+            x:Name="refDensity"
+            Text="{Binding Value, ElementName=refDenSlider}"
+      />
+
+		
+
+		
+			
+
+		
+
+        <Slider x:Name="refDenSlider"
+            Maximum="2000"
+            Minimum="1"
+        
+        Value="{Binding Text, ElementName=refDensity, Mode=TwoWay}"
+          TickFrequency="1"
+          IsSnapToTickEnabled="True"
+	  />
+
+
+		
+		<StackPanel Orientation="Horizontal" Spacing="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+			<Label Width="173" x:Name="gravityXLabel">Gravity X</Label>
+			<Label Width="173" x:Name="gravityZLabel">Gravity Z - Standard</Label>
+			<Label Width="173" x:Name="gravityYLabel">Gravity Y</Label>
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal" Spacing="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+			<TextBox x:Name="gravityXTextBox" Text="{Binding Value, ElementName=gravSliderX, Mode=TwoWay}" Width="173"/>
+			<TextBox x:Name="gravityZTextBox" Text="{Binding Value, ElementName=gravSliderZ, Mode=TwoWay}" Width="173"/>
+			<TextBox x:Name="gravityYTextBox" Text="{Binding Value, ElementName=gravSliderY, Mode=TwoWay}" Width="173"/>
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal" Spacing="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+			<Slider x:Name="gravSliderX" Maximum="10" Minimum="-10" Value="{Binding Text, ElementName=gravityXTextBox, Mode=TwoWay}" TickFrequency="0.1" IsSnapToTickEnabled="True" Width="173"/>
+			<Slider x:Name="gravSliderZ" Maximum="10" Minimum="-10" Value="{Binding Text, ElementName=gravityZTextBox, Mode=TwoWay}" TickFrequency="0.1" IsSnapToTickEnabled="True" Width="173"/>
+			<Slider x:Name="gravSliderY" Maximum="10" Minimum="-10" Value="{Binding Text, ElementName=gravityYTextBox, Mode=TwoWay}" TickFrequency="0.1" IsSnapToTickEnabled="True" Width="173"/>
+		</StackPanel>
+
+
+        <Label>Reference sound speed</Label>
+        <TextBox
+            x:Name="refSoundSpeed"
+            Text="{Binding Value, ElementName=refSoundSlider}"
+      />
+
+        <Slider x:Name="refSoundSlider"
+            Maximum="1000"
+            Minimum="1"
+        
+        Value="{Binding Text, ElementName=refSoundSpeed, Mode=TwoWay}"
+          TickFrequency="1"
+          IsSnapToTickEnabled="True"
+	  />
+
+
+        <Label x:Name="SpacingLabel">Default particle spacing</Label>
+        <TextBox
+            x:Name="defaultParticleSpacing"
+            Text="{Binding Value, ElementName=defaultParticleSpacingSlider}"
+      />
+
+        <Slider x:Name="defaultParticleSpacingSlider"
+            Maximum="1"
+            Minimum="0.001"
+        
+        Value="{Binding Text, ElementName=defaultParticleSpacing, Mode=TwoWay}"
+          TickFrequency="0.001"
+          IsSnapToTickEnabled="True"
+	  />
+
+
+        <Label>Expansion ratio for h, typically 1.2 - 1.3</Label>
+        <TextBox
+            x:Name="expRatioH"
+            Text="{Binding Value, ElementName=expRatioHSlider}"
+      />
+
+        <Slider x:Name="expRatioHSlider"
+            Maximum="1.4"
+            Minimum="1.1"
+        
+        Value="{Binding Text, ElementName=expRatioH, Mode=TwoWay}"
+          TickFrequency="0.001"
+          IsSnapToTickEnabled="True"
+	  />
+
+
+
+
+		<Label>Support domain size (h_kappa)</Label>
+		<TextBox
+            x:Name="HKappaTextBox"
+            Text="{Binding Value, ElementName=HKappaSlider}"
+      />
+
+		<Slider x:Name="HKappaSlider"
+            Maximum="10"
+            Minimum="0"
+        
+        Value="{Binding Text, ElementName=HKappaTextBox, Mode=TwoWay}"
+          TickFrequency="0.1"
+          IsSnapToTickEnabled="True"
+	  />
+		
+		
+		
+
+
+        <Label x:Name="StartLabel">Start time</Label>
+        <TextBox
+            x:Name="startTime"
+            Text="{Binding Value, ElementName=startTimeSlider}"
+      />
+
+        <Slider x:Name="startTimeSlider"
+            Maximum="10"
+            Minimum="0.0"
+        
+        Value="{Binding Text, ElementName=startTime, Mode=TwoWay}"
+          TickFrequency="0.001"
+          IsSnapToTickEnabled="True"
+	  />
+
+
+        <Label x:Name="EndLabel">End time</Label>
+        <TextBox
+            x:Name="endTime"
+            Text="{Binding Value, ElementName=endTimeSlider}"
+      />
+
+        <Slider x:Name="endTimeSlider"
+            Maximum="100"
+            Minimum="0"
+        
+        Value="{Binding Text, ElementName=endTime, Mode=TwoWay}"
+          TickFrequency="0.001"
+          IsSnapToTickEnabled="True"
+	  />
+
+
+        <Label>Maximum time step</Label>
+        <TextBox
+            x:Name="maxTimeStep"
+            Text="{Binding Value, ElementName=maxTimeStepSlider}"
+      />
+
+        <Slider x:Name="maxTimeStepSlider"
+            Maximum="1"
+            Minimum="0"
+        
+        Value="{Binding Text, ElementName=maxTimeStep, Mode=TwoWay}"
+          TickFrequency="0.001"
+          IsSnapToTickEnabled="True"
+	  />
+
+
+        <Label>Time step coefficient</Label>
+        <TextBox
+            x:Name="timeStepCoefficient"
+            Text="{Binding Value, ElementName=timeStepCoefficientSlider}"
+      />
+
+        <Slider x:Name="timeStepCoefficientSlider"
+            Maximum="1"
+            Minimum="0.1"
+        
+        Value="{Binding Text, ElementName=timeStepCoefficient, Mode=TwoWay}"
+          TickFrequency="0.001"
+          IsSnapToTickEnabled="True"
+	  />
+
+
+        <Label>Time step viscosity coefficient</Label>
+        <TextBox
+            x:Name="timeStepViscosityCoefficient"
+            Text="{Binding Value, ElementName=timeStepViscosityCoefficientSlider}"
+      />
+
+        <Slider x:Name="timeStepViscosityCoefficientSlider"
+            Maximum="1"
+            Minimum="0"
+        
+        Value="{Binding Text, ElementName=timeStepViscosityCoefficient, Mode=TwoWay}"
+          TickFrequency="0.001"
+          IsSnapToTickEnabled="True"
+	  />
+
+
+        <Label>Time step surface tension coefficient</Label>
+        <TextBox
+            x:Name="timeStepSurfaceTensionCoefficient"
+            Text="{Binding Value, ElementName=timeStepSurfaceTensionCoefficientSlider}"
+      />
+
+        <Slider x:Name="timeStepSurfaceTensionCoefficientSlider"
+            Maximum="1"
+            Minimum="0"
+        
+        Value="{Binding Text, ElementName=timeStepSurfaceTensionCoefficient, Mode=TwoWay}"
+          TickFrequency="0.001"
+          IsSnapToTickEnabled="True"
+	  />
+
+
+        <Label>Output Interval</Label>
+        <TextBox
+            x:Name="outputInterval"
+            Text="{Binding Value, ElementName=outputIntervalSlider}"
+      />
+
+        <Slider x:Name="outputIntervalSlider"
+            Maximum="1"
+            Minimum="0"
+        
+        Value="{Binding Text, ElementName=outputInterval, Mode=TwoWay}"
+          TickFrequency="0.001"
+          IsSnapToTickEnabled="True"
+	  />
+
+        <Label>Kernal Types </Label>
+        <ComboBox Name="kernelType" SelectedIndex="0">
+          <ComboBoxItem Content="wendland"/>
+          <ComboBoxItem Content="gaussian"/>
+          <!-- Can add more kernals here -->
+        </ComboBox>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+      <Button
+  Click="PreviewSim">Preview simulation</Button>
+
+
+      <Label>Input simulation structure(point cloud)</Label>
+      <Label
+          x:Name="simulationStructureError"
+          IsVisible="False"
+          Foreground="Red"
+      >
+        You must input the simulation structure
+      </Label>
+      <Panel Height="300">
+        <TextBox
+          x:Name="structureBox"
+          MinHeight="300"
+          
+          AcceptsReturn="True"
+      />
+      </Panel>
+
+      <Button
+      Click="SubmitClicked" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20">Start Simulation</Button>
+
+
+
+
+
+
+
+
+
+
+        
+    </StackPanel>
+	</StackPanel>
+	</ThemeVariantScope>
+ </ScrollViewer>
+ 
+     
+
+
+
+  
+  
+  
+</UserControl>
+

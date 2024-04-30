@@ -1,0 +1,1 @@
+In order to install copy the installed leela folder into the .net maui compiled folder
